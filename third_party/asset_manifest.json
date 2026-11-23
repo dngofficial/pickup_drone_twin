@@ -1,0 +1,42 @@
+[
+  {
+    "path": "godot/assets/cc-by/hammer.glb",
+    "creator": "J-Toastie",
+    "license": "CC-BY-3.0",
+    "source": "https://poly.pizza/m/66FnMJl5fs",
+    "download": "https://static.poly.pizza/bfc4eb49-da19-42d4-b805-0656a17ccbfc.glb.br",
+    "sha256": "c16369032f7195bc8b3f4c68fbf853ef374515ef39a26508ffe1d2ac8f2e85c4"
+  },
+  {
+    "path": "godot/assets/cc0/rock_largeA.glb",
+    "creator": "Kenney",
+    "license": "CC0-1.0",
+    "source": "https://kenney.nl/assets/nature-kit",
+    "download": "https://kenney.nl/media/pages/assets/nature-kit/37ac38a37b-1677698939/kenney_nature-kit.zip?download=1",
+    "sha256": "6dd15390fd96501dcd1454765a17ba61dbbd8d47705dfe5149c8dd92b353ce25"
+  },
+  {
+    "path": "godot/assets/cc0/rock_largeB.glb",
+    "creator": "Kenney",
+    "license": "CC0-1.0",
+    "source": "https://kenney.nl/assets/nature-kit",
+    "download": "https://kenney.nl/media/pages/assets/nature-kit/37ac38a37b-1677698939/kenney_nature-kit.zip?download=1",
+    "sha256": "caa8b025833d4dabf6d98fe2e96cf2fbd886693ac990df0db75f9d827194374b"
+  },
+  {
+    "path": "godot/assets/cc0/rock_largeC.glb",
+    "creator": "Kenney",
+    "license": "CC0-1.0",
+    "source": "https://kenney.nl/assets/nature-kit",
+    "download": "https://kenney.nl/media/pages/assets/nature-kit/37ac38a37b-1677698939/kenney_nature-kit.zip?download=1",
+    "sha256": "23aee8b727adeaf260207af3e0615dc69aa766c6d87de1d44cbc8c2711d74dd1"
+  },
+  {
+    "path": "godot/assets/cc0/water_bottle.glb",
+    "creator": "Quaternius",
+    "license": "CC0-1.0",
+    "source": "https://poly.pizza/m/KpxDpidn1Z",
+    "download": "https://static.poly.pizza/3ebef9a3-c2df-49ee-abe1-df38b5777bcd.glb.br",
+    "sha256": "abdb532223cc06545a893eef3edcfb16df5fffc994a6927e74249dd2326b799c"
+  }
+]

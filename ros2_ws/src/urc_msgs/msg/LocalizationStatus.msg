@@ -1,0 +1,11 @@
+std_msgs/Header header
+string quality
+float32 seconds_since_fix
+float32 horizontal_sigma_m
+float32 vertical_sigma_m
+float32 yaw_sigma_rad
+float32 registration_rmse_m
+bool odometry_valid
+bool fix_accepted
+uint32 rejected_fixes
+string reason

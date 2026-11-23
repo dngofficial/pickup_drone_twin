@@ -1,0 +1,3 @@
+int32 tag_id
+geometry_msgs/PoseWithCovariance pose
+float32 confidence

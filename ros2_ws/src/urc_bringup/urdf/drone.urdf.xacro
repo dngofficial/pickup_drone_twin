@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="urc_pickup_drone">
+  <link name="base_link">
+    <visual><geometry><box size="0.50 0.36 0.16"/></geometry><material name="blue"><color rgba="0.17 0.70 0.70 1"/></material></visual>
+  </link>
+  <xacro:macro name="fixed" params="name parent xyz rpy:='0 0 0'">
+    <link name="${name}"/>
+    <joint name="${name}_mount" type="fixed"><parent link="${parent}"/><child link="${name}"/><origin xyz="${xyz}" rpy="${rpy}"/></joint>
+  </xacro:macro>
+  <link name="camera_link"/>
+  <joint name="camera_tilt_joint" type="revolute"><parent link="base_link"/><child link="camera_link"/>
+    <origin xyz="0.20 0 -0.15"/><axis xyz="0 1 0"/><limit lower="0" upper="1.571" effort="1" velocity="5"/>
+  </joint>
+  <xacro:fixed name="camera_optical_frame" parent="camera_link" xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+  <xacro:fixed name="gripper_link" parent="base_link" xyz="0 0 -0.55"/>
+  <xacro:fixed name="lidar_link" parent="base_link" xyz="0 0 0.18"/>
+  <xacro:fixed name="range_down_link" parent="base_link" xyz="0 0 -0.18" rpy="0 1.57079632679 0"/>
+  <xacro:fixed name="range_up_link" parent="base_link" xyz="0 0 0.18" rpy="0 -1.57079632679 0"/>
+</robot>

@@ -1,0 +1,129 @@
+contract_version: 1
+runtime:
+  sim: godot
+  ros_distro: jazzy
+  use_sim_time: true
+  bridge_url: ws://127.0.0.1:9090
+  physics_hz: 60
+  control_hz: 20
+  command_max_age_sim_s: 0.25
+  watchdog_wall_s: 0.5
+  sensor_timeout_sim_s: 0.6
+  websocket_max_bytes: 8388608
+scene:
+  seed: 42
+  bottles: 5
+  hammers: 5
+  max_slope_deg: 8.0
+  max_rock_height_m: 1.0
+  object_min_separation_m: 0.8
+  bottle_mass_kg: 0.15
+  hammer_mass_kg: 0.55
+  station_world_xyz_yaw: [10.0, -6.0, 0.0, 0.2617993878]
+  station_map_xyz_yaw: [0.0, 0.0, 0.0, 0.0]
+  initial_base_map_xyz_yaw: [0.0, 0.0, 0.65, 0.0]
+  bin_a_map_xyz: [-2.0, 2.5, 0.0]
+  bin_b_map_xyz: [-2.0, -2.5, 0.0]
+  bin_inner_width_m: 1.2
+  bin_rim_height_m: 0.6
+  bin_capacity: 6
+sensors:
+  lidar_hz: 10
+  lidar_range_m: 40.0
+  lidar_azimuth_samples: 360
+  lidar_elevations_deg: [-50, -30, -15, -5, 0, 5, 10, 15, 30, 50]
+  lidar_noise_m: 0.008
+  flow_noise_mps: 0.01
+  gyro_noise_radps: 0.001
+  barometer_height_noise_m: 0.03
+  camera_width: 640
+  camera_height: 360
+  camera_vertical_fov_deg: 60.0
+  camera_hz: 10
+  depth_hz: 5
+  imu_hz: 60
+  depth_encoding: 16UC1
+  depth_unit_m: 0.001
+  search_camera_tilt_deg: 60.0
+  servo_camera_tilt_deg: 90.0
+  fiducial_hz: 5
+  fiducial_max_range_m: 12.0
+  fiducial_miss_rate: 0.10
+  fiducial_position_noise_m: 0.03
+  fiducial_yaw_noise_deg: 1.0
+  range_beacon_enabled: false
+localization:
+  voxel_size_m: 0.18
+  max_map_points: 60000
+  height_mode: relative_barometer
+  terrain_range_is_clearance_only: true
+  correction_gate_mahalanobis2: 13.28
+  max_fix_age_s: 0.25
+  low_confidence_fix_age_s: 5.0
+  return_fix_age_s: 90.0
+  return_horizontal_sigma_m: 0.75
+  fail_horizontal_sigma_m: 2.0
+  correction_speed_mps: 0.5
+  correction_yaw_rate_radps: 0.10
+  correction_process_noise_xy_m2_per_s: 0.001
+  correction_process_noise_z_m2_per_s: 0.0004
+  correction_process_noise_yaw_rad2_per_s: 0.00002
+perception:
+  detector: oracle
+  class_names: [bottle, hammer]
+  source_class_map: {bottle: bottle, Orange_hammer: hammer}
+  oracle_miss_rate: 0.15
+  oracle_box_noise_px: 2.0
+  oracle_false_positive_rate: 0.01
+  min_visible_fraction: 0.25
+  confidence_threshold: 0.50
+  onnx_model: weights/hammer_bottle_yolov8n.onnx
+  onnx_provider: CPUExecutionProvider
+  input_size: 640
+  nms_iou_threshold: 0.45
+  image_depth_sync_tolerance_s: 0.025
+  max_detection_age_s: 0.25
+  track_association_gate_m: 0.50
+  track_confirmation_hits: 3
+  track_confirmation_window: 5
+  track_lost_timeout_s: 3.0
+training:
+  roboflow_workspace: urc-cvc4i
+  roboflow_project: hammer-bottle-l3zmd-odqnx
+  roboflow_version: 1
+  api_key_env: ROBOFLOW_API_KEY
+  real_train_fraction: 0.5
+  synthetic_train_fraction: 0.5
+  model_family: yolov8n
+  onnx_precision: fp32
+mission:
+  bin_policy: by_class
+  class_bins: {bottle: bin_a, hammer: bin_b}
+  selected_bin: bin_a
+  search_bounds_xy: [4.0, 24.0, -8.0, 8.0]
+  lane_spacing_m: 2.0
+  coverage_cell_m: 0.5
+  search_altitude_agl_m: 3.0
+  transport_altitude_agl_m: 2.5
+  transit_speed_mps: 0.8
+  descent_speed_mps: 0.15
+  grasp_capture_radius_m: 0.10
+  grasp_max_relative_speed_mps: 0.08
+  attachment_verify_s: 0.5
+  max_grasp_attempts: 3
+  drop_xy_tolerance_m: 0.15
+  drop_height_above_rim_m: 0.25
+  max_state_duration_s: 45.0
+  bin_policy_ui_timeout_s: 15.0
+safety:
+  geofence_xy: [-4.0, 28.0, -12.0, 12.0]
+  geofence_max_agl_m: 8.0
+  fence_margin_m: 0.75
+  battery_capacity_wh: 100.0
+  battery_hover_w: 180.0
+  battery_translation_w_per_mps: 40.0
+  battery_payload_w_per_kg: 80.0
+  battery_rtl_fraction: 0.25
+  battery_critical_fraction: 0.10
+  rtl_energy_margin_factor: 1.5
+  payload_speed_coefficient_per_kg: 1.5

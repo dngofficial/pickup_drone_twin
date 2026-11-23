@@ -1,0 +1,7 @@
+string mission_id
+---
+bool success
+string reason
+uint32 delivered_count
+---
+urc_msgs/MissionStatus status

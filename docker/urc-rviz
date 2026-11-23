@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Visualization only: ROS and the simulator run outside this container.
+children=()
+cleanup() {
+    if ((${#children[@]})); then
+        kill -TERM "${children[@]}" 2>/dev/null || true
+        wait "${children[@]}" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT
+
+Xvfb "$DISPLAY" -screen 0 1440x900x24 -nolisten tcp &
+children+=("$!")
+for ((attempt=0; attempt<100; attempt++)); do
+    if xdpyinfo >/dev/null 2>&1; then break; fi
+    sleep .1
+done
+if ! xdpyinfo >/dev/null 2>&1; then
+    echo 'Could not start the RViz virtual display.' >&2
+    exit 1
+fi
+openbox &
+children+=("$!")
+x11vnc -display "$DISPLAY" -listen 127.0.0.1 -localhost -rfbport 5900 -forever -shared -nopw &
+children+=("$!")
+websockify --web=/usr/share/novnc 0.0.0.0:6080 127.0.0.1:5900 &
+children+=("$!")
+urc-ros ros2 run rviz2 rviz2 -d /opt/urc_ws/install/urc_bringup/share/urc_bringup/rviz/twin.rviz \
+    --ros-args -p use_sim_time:=true &
+children+=("$!")
+wait -n "${children[@]}"

@@ -1,0 +1,14 @@
+uint8 NEW=0
+uint8 CONFIRMED=1
+uint8 TARGETED=2
+uint8 PICKED=3
+uint8 LOST=4
+uint8 DELIVERED=5
+string track_id
+string class_id
+float32 confidence
+geometry_msgs/PoseWithCovariance pose
+builtin_interfaces/Time last_seen
+uint8 status
+uint32 grasp_attempts
+bool blacklisted

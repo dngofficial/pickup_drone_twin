@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+source /opt/ros/jazzy/setup.bash
+source /opt/urc_ws/install/setup.bash
+if [[ -d /opt/urc/inference/lib/python3.12/site-packages ]]; then
+    export PYTHONPATH="/opt/urc/inference/lib/python3.12/site-packages${PYTHONPATH:+:$PYTHONPATH}"
+fi
+exec "$@"

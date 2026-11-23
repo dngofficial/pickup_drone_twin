@@ -1,0 +1,76 @@
+services:
+  ros:
+    build:
+      context: .
+      target: ros
+    ports:
+      - '127.0.0.1:9090:9090'
+      # The optional rviz service shares this network namespace.
+      - '127.0.0.1:6080:6080'
+    environment:
+      ROS_DOMAIN_ID: '43'
+    command:
+      - urc-ros
+      - ros2
+      - launch
+      - urc_bringup
+      - twin.launch.py
+      - sim:=godot
+      - bridge_address:=0.0.0.0
+      - rviz:=false
+      - detector:=${URC_DETECTOR:-oracle}
+      - model:=/opt/urc/project/weights/hammer_bottle_yolov8n.onnx
+    volumes:
+      - ./weights:/opt/urc/project/weights:ro
+    ipc: shareable
+    healthcheck:
+      test: ['CMD', 'python3', '-c', 'import socket; socket.create_connection(("127.0.0.1", 9090), timeout=2).close()']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+    init: true
+
+  rviz:
+    profiles: [rviz]
+    build:
+      context: .
+      target: rviz
+    depends_on:
+      ros:
+        condition: service_healthy
+        restart: true
+    # Share DDS networking and shared memory with ROS for reliable discovery.
+    network_mode: service:ros
+    ipc: service:ros
+    environment:
+      ROS_DOMAIN_ID: '43'
+    init: true
+
+  desktop:
+    profiles: [desktop]
+    build:
+      context: .
+      target: desktop
+    ports:
+      - '127.0.0.1:6080:6080'
+    environment:
+      ROS_DOMAIN_ID: '43'
+      URC_SIM: ${URC_SIM:-godot}
+      URC_SCENE_SEED: ${URC_SCENE_SEED:-42}
+      URC_DETECTOR: ${URC_DETECTOR:-oracle}
+    volumes:
+      - ./weights:/opt/urc/project/weights:ro
+    init: true
+
+  trainer:
+    profiles: [training]
+    build:
+      context: .
+      target: trainer
+    volumes:
+      - ./data:/opt/urc/project/data
+      - ./runs:/opt/urc/project/runs
+      - ./weights:/opt/urc/project/weights
+    shm_size: 1gb
+    init: true

@@ -1,0 +1,5 @@
+string policy
+string selected_bin
+---
+bool success
+string message

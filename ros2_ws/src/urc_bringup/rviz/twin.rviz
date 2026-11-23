@@ -1,0 +1,68 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Global Options:
+    Fixed Frame: map
+    Background Color: 22; 32; 40
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Ground grid
+      Plane Cell Count: 64
+      Cell Size: 0.5
+      Enabled: true
+    - Class: rviz_default_plugins/TF
+      Name: Station and drone frames
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: Drone
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+      Enabled: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Local SLAM map
+      Topic:
+        Value: /slam/map
+        Durability Policy: Transient Local
+      Size (m): 0.05
+      Enabled: true
+    - Class: rviz_default_plugins/Map
+      Name: Search coverage
+      Topic:
+        Value: /mission/coverage
+        Durability Policy: Transient Local
+      Enabled: true
+    - Class: rviz_default_plugins/Path
+      Name: A* route
+      Topic:
+        Value: /mission/path
+        Durability Policy: Transient Local
+      Enabled: true
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Object tracks
+      Topic:
+        Value: /visualization/objects
+      Enabled: true
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Station and bins
+      Topic:
+        Value: /visualization/site
+      Enabled: true
+    - Class: rviz_default_plugins/Image
+      Name: Camera detections
+      Topic:
+        Value: /drone/camera/overlay/image
+        Reliability Policy: Best Effort
+      Enabled: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 27
+      Pitch: 0.88
+      Yaw: 4.54
+      Focal Point: {X: 9, Y: 0, Z: 0}
+      Name: Current View

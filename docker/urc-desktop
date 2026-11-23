@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sim=${URC_SIM:-godot}
+seed=${URC_SCENE_SEED:-42}
+detector=${URC_DETECTOR:-oracle}
+model=${URC_MODEL:-/opt/urc/project/weights/hammer_bottle_yolov8n.onnx}
+if [[ $sim != godot && $sim != gazebo ]]; then
+    echo 'URC_SIM must be godot or gazebo.' >&2
+    exit 2
+fi
+if [[ $detector == yolo ]]; then
+    if [[ ! -r $model || ! -r ${model%.onnx}.classes.json ]]; then
+        echo "The YOLO model and its .classes.json sidecar must be readable at $model." >&2
+        exit 2
+    fi
+elif [[ $detector != oracle ]]; then
+    echo 'URC_DETECTOR must be oracle or yolo.' >&2
+    exit 2
+fi
+
+children=()
+world_dir=
+cleanup() {
+    if ((${#children[@]})); then
+        kill -TERM "${children[@]}" 2>/dev/null || true
+        wait "${children[@]}" 2>/dev/null || true
+    fi
+    if [[ -n $world_dir ]]; then rm -rf -- "$world_dir"; fi
+}
+trap cleanup EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT
+
+Xvfb "$DISPLAY" -screen 0 1440x900x24 -nolisten tcp &
+children+=("$!")
+for ((attempt=0; attempt<100; attempt++)); do
+    if xdpyinfo >/dev/null 2>&1; then break; fi
+    sleep .1
+done
+if ! xdpyinfo >/dev/null 2>&1; then
+    echo 'Could not start the virtual display.' >&2
+    exit 1
+fi
+openbox &
+children+=("$!")
+x11vnc -display "$DISPLAY" -listen 127.0.0.1 -localhost -rfbport 5900 -forever -shared -nopw &
+children+=("$!")
+websockify --web=/usr/share/novnc 0.0.0.0:6080 127.0.0.1:5900 &
+children+=("$!")
+
+args=(sim:="$sim" rviz:=true detector:="$detector")
+if [[ $detector == yolo ]]; then args+=(model:="$model"); fi
+if [[ $sim == gazebo ]]; then
+    world_dir=$(mktemp -d /tmp/urc-gazebo.XXXXXXXX)
+    world="$world_dir/urc_terrain.sdf"
+    python3 tools/generate_gazebo.py --seed "$seed" --output "$world"
+    args+=(world:="$world" autostart:=true)
+fi
+urc-ros ros2 launch urc_bringup twin.launch.py "${args[@]}" &
+children+=("$!")
+if [[ $sim == godot ]]; then
+    godot --path godot --audio-driver Dummy -- "--seed=$seed" &
+    children+=("$!")
+fi
+wait -n "${children[@]}"

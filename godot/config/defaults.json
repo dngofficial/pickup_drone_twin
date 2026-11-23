@@ -1,0 +1,165 @@
+{
+  "contract_version": 1,
+  "mission": {
+    "attachment_verify_s": 0.5,
+    "bin_policy": "by_class",
+    "bin_policy_ui_timeout_s": 15.0,
+    "class_bins": {
+      "bottle": "bin_a",
+      "hammer": "bin_b"
+    },
+    "coverage_cell_m": 0.5,
+    "descent_speed_mps": 0.15,
+    "drop_height_above_rim_m": 0.25,
+    "drop_xy_tolerance_m": 0.15,
+    "grasp_capture_radius_m": 0.1,
+    "grasp_max_relative_speed_mps": 0.08,
+    "lane_spacing_m": 2.0,
+    "max_grasp_attempts": 3,
+    "max_state_duration_s": 45.0,
+    "search_altitude_agl_m": 3.0,
+    "search_bounds_xy": [
+      4.0,
+      24.0,
+      -8.0,
+      8.0
+    ],
+    "selected_bin": "bin_a",
+    "transit_speed_mps": 0.8,
+    "transport_altitude_agl_m": 2.5
+  },
+  "perception": {
+    "class_names": [
+      "bottle",
+      "hammer"
+    ],
+    "confidence_threshold": 0.5,
+    "detector": "oracle",
+    "image_depth_sync_tolerance_s": 0.025,
+    "input_size": 640,
+    "max_detection_age_s": 0.25,
+    "min_visible_fraction": 0.25,
+    "nms_iou_threshold": 0.45,
+    "onnx_model": "weights/hammer_bottle_yolov8n.onnx",
+    "onnx_provider": "CPUExecutionProvider",
+    "oracle_box_noise_px": 2.0,
+    "oracle_false_positive_rate": 0.01,
+    "oracle_miss_rate": 0.15,
+    "source_class_map": {
+      "Orange_hammer": "hammer",
+      "bottle": "bottle"
+    },
+    "track_association_gate_m": 0.5,
+    "track_confirmation_hits": 3,
+    "track_confirmation_window": 5,
+    "track_lost_timeout_s": 3.0
+  },
+  "runtime": {
+    "bridge_url": "ws://127.0.0.1:9090",
+    "command_max_age_sim_s": 0.25,
+    "control_hz": 20,
+    "physics_hz": 60,
+    "ros_distro": "jazzy",
+    "sensor_timeout_sim_s": 0.6,
+    "sim": "godot",
+    "use_sim_time": true,
+    "watchdog_wall_s": 0.5,
+    "websocket_max_bytes": 8388608
+  },
+  "safety": {
+    "battery_capacity_wh": 100.0,
+    "battery_critical_fraction": 0.1,
+    "battery_hover_w": 180.0,
+    "battery_payload_w_per_kg": 80.0,
+    "battery_rtl_fraction": 0.25,
+    "battery_translation_w_per_mps": 40.0,
+    "fence_margin_m": 0.75,
+    "geofence_max_agl_m": 8.0,
+    "geofence_xy": [
+      -4.0,
+      28.0,
+      -12.0,
+      12.0
+    ],
+    "payload_speed_coefficient_per_kg": 1.5,
+    "rtl_energy_margin_factor": 1.5
+  },
+  "scene": {
+    "bin_a_map_xyz": [
+      -2.0,
+      2.5,
+      0.0
+    ],
+    "bin_b_map_xyz": [
+      -2.0,
+      -2.5,
+      0.0
+    ],
+    "bin_capacity": 6,
+    "bin_inner_width_m": 1.2,
+    "bin_rim_height_m": 0.6,
+    "bottle_mass_kg": 0.15,
+    "bottles": 5,
+    "hammer_mass_kg": 0.55,
+    "hammers": 5,
+    "initial_base_map_xyz_yaw": [
+      0.0,
+      0.0,
+      0.65,
+      0.0
+    ],
+    "max_rock_height_m": 1.0,
+    "max_slope_deg": 8.0,
+    "object_min_separation_m": 0.8,
+    "seed": 42,
+    "station_map_xyz_yaw": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "station_world_xyz_yaw": [
+      10.0,
+      -6.0,
+      0.0,
+      0.2617993878
+    ]
+  },
+  "sensors": {
+    "barometer_height_noise_m": 0.03,
+    "camera_height": 360,
+    "camera_hz": 10,
+    "camera_vertical_fov_deg": 60.0,
+    "camera_width": 640,
+    "depth_encoding": "16UC1",
+    "depth_hz": 5,
+    "depth_unit_m": 0.001,
+    "fiducial_hz": 5,
+    "fiducial_max_range_m": 12.0,
+    "fiducial_miss_rate": 0.1,
+    "fiducial_position_noise_m": 0.03,
+    "fiducial_yaw_noise_deg": 1.0,
+    "flow_noise_mps": 0.01,
+    "gyro_noise_radps": 0.001,
+    "imu_hz": 60,
+    "lidar_azimuth_samples": 360,
+    "lidar_elevations_deg": [
+      -50,
+      -30,
+      -15,
+      -5,
+      0,
+      5,
+      10,
+      15,
+      30,
+      50
+    ],
+    "lidar_hz": 10,
+    "lidar_noise_m": 0.008,
+    "lidar_range_m": 40.0,
+    "range_beacon_enabled": false,
+    "search_camera_tilt_deg": 60.0,
+    "servo_camera_tilt_deg": 90.0
+  }
+}

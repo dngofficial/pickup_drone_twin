@@ -1,0 +1,7 @@
+string operation
+uint64 seed
+uint32 ticks
+---
+bool success
+uint64 epoch
+string message
