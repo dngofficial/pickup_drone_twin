@@ -1,8 +1,6 @@
 # URC Pickup Drone Twin
-
-ROS 2 Jazzy controls a simulated drone that searches seeded terrain, sorts bottles into Bin A and hammers into Bin B, and returns to the station. The drone uses LiDAR SLAM, station-tag fixes and A* routing. Choose Godot for the flight dashboard or Gazebo Harmonic for the alternate physics and sensor backend. Both connect to the same ROS 2 autonomy stack and RViz configuration.
 <img width="1280" height="800" alt="dashboard" src="https://github.com/user-attachments/assets/4d093d5e-08f3-4576-95f6-f83556b74a75" />
-
+ROS 2 Jazzy controls a simulated drone that searches seeded terrain, sorts bottles into Bin A and hammers into Bin B, and returns to the station. The drone uses LiDAR SLAM, station-tag fixes and A* routing. Choose Godot for the flight dashboard or Gazebo Harmonic for the alternate physics and sensor backend. Both connect to the same ROS 2 autonomy stack and RViz configuration.
 
 ## Windows with Docker Desktop
 
